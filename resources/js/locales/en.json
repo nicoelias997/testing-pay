@@ -1,0 +1,437 @@
+{
+  "app": {
+    "register": "Register",
+    "created_at": "Creation Date",
+    "registered_at": "Registration Date",
+    "modified_at": "Modification Date",
+    "articles": "Articles",
+    "overview": "Overview",
+    "logout": "Logout",
+    "orders": "Manufacturing Orders",
+    "pagination": {
+      "showing_registries": "Showing {from} to {to} of {total} records.",
+      "showing_filtered": "Showing {from} to {to} of {total} records.",
+      "from_total": "Showing {from} to {to} of {total} records.",
+      "total": "Showing {total} records.",
+      "first": "First",
+      "last": "Last",
+      "previous": "Previous",
+      "next": "Next",
+      "showing": "Showing",
+      "results": "results"
+    },
+    "profile": "Profile",
+    "settings": "Settings",
+    "all": "All",
+    "unprocessed": "Unprocessed",
+    "processed": "Processed",
+    "closed": "Closed",
+    "users": "Users",
+    "terminal": "Terminal",
+    "monitoring": "Monitoring",
+    "events": "Events",
+    "devices": "Devices",
+    "colors": "Colors",
+    "bi": "BI",
+    "business_intelligence": "Business Intelligence",
+    "language": "Language",
+    "visits": "External Visits"
+  },
+  "badges": {
+    "new": "New"
+  },
+  "auth": {
+    "email": "Email",
+    "email_placeholder": "Email address",
+    "password": "Password",
+    "password_placeholder": "Access password",
+    "invalid": "Invalid credentials"
+  },
+  "actions": {
+    "create": "Create",
+    "edit": "Edit",
+    "return": "Return"
+  },
+  "buttons": {
+    "accept": "Accept",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "ok": "OK",
+    "submit": "Submit",
+    "login": "Log in",
+    "search": "Search",
+    "order_details": "Order Details",
+    "process_order": "Process Orders",
+    "save": "Save",
+    "save_process": "Save and Process",
+    "return": "Return",
+    "add_phase": "Add Phase",
+    "create": "Create",
+    "update": "Update",
+    "delete": "Delete",
+    "discard": "Discard",
+    "close": "Close"
+  },
+  "tooltips": {
+    "change_machine": "Change Machine"
+  },
+  "hidden": {
+    "loading": "Loading..."
+  },
+  "system": {
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "messages": {
+      "default": "An error occurred while processing your request. Please try again later or contact the application administrator to resolve it.",
+      "users": {
+        "invalid_login": "The username or password is incorrect or does not exist."
+      }
+    }
+  },
+  "texts": {
+    "all": "All",
+    "unavailable": "{page} is not yet available.",
+    "remember_me": "Keep me logged in",
+    "order_submitted": "Order processed successfully!",
+    "order_error": "The order could not be processed. Please check the order number and ensure it is not already entered in the DOEET system.",
+    "processed_orders": "Number of processed orders in DOEET",
+    "pending_orders": "Number of pending orders in DOEET",
+    "content_not_available": "Information is not yet available.",
+    "no_data": "No records exist",
+    "no_data_component": "No {component} records exist",
+    "panel_no_app": "Documents can only be opened from the desktop application of the connector.",
+    "panel_no_require": "You do not have the required functionality to open documents.",
+    "ask_production_order_update_process": "Changes will be saved and the order will be processed in DOEET. Are you sure you want to continue?",
+    "ask_production_order_update": "Changes will be saved. Are you sure you want to continue?",
+    "ask_production_order_force": "Attention! Processing of the selected order(s) will be forced, even if marked as processed. Any data discrepancies between systems will be your responsibility. Are you sure you want to continue?",
+    "file": "File | File(s)"
+  },
+  "modals": {
+    "alert": "Alert",
+    "confirm": "Confirm",
+    "info": "Information",
+    "error": "Error",
+    "pdf_viewer": "PDF Document Viewer"
+  },
+  "aria": {
+    "hidden": {
+      "events": "Unread Events",
+      "colors": "Management Colors",
+      "monitoring": "Resource Monitoring"
+    }
+  },
+  "route": "Route | Routes",
+  "routes": {
+    "title": "Route - {id}",
+    "annex": "Annex",
+    "details": "Details",
+    "documents": "Documents"
+  },
+  "phase": "Phase | Phases",
+  "phases": {
+    "status": "Status",
+    "statuses": {
+      "0": "Open",
+      "1": "Closed"
+    }
+  },
+  "devices": {
+    "managed": "Managed Devices",
+    "total": "Total",
+    "connected": "Connected",
+    "disconnected": "Disconnected",
+    "terminals": "Terminals",
+    "controllers": "Controllers"
+  },
+  "machine": "Machine | Machines",
+  "machines": {},
+  "orders": "Orders",
+  "order": {
+    "no_article": "No article",
+    "no_material": "No material",
+    "single": "Order",
+    "processed_orders": "Processed Orders",
+    "pending_orders": "Pending Orders",
+    "order_number": "Order Number",
+    "article": "Article",
+    "material": "Material",
+    "machine": "Machine",
+    "delivery": "Delivery Date",
+    "details": "Details",
+    "edit": "Edit Order",
+    "expected_units": "Expected Units",
+    "status": "Status",
+    "statuses": {
+      "10": "Open",
+      "40": "Closed"
+    },
+    "phases": "Phases",
+    "description": "Description",
+    "type": "Type",
+    "production_info": "Production Information",
+    "start_date": "Planned Start Date",
+    "end_date": "Planned End Date",
+    "expiry_date": "Expiry Date",
+    "customer_order": "Customer Order",
+    "warehouse": "Warehouse",
+    "expiring_soon": "Orders Expiring Soon",
+    "statistic": {
+      "processed": "Processed Orders",
+      "last_7_days": "Orders in the Last 7 Days",
+      "types": "% Order Types",
+      "machines": "Orders per Machine and % by Group"
+    },
+    "followage": "Order Follow-up",
+    "version": "Revision"
+  },
+  "article_documents": "Article Documentation",
+  "article": {
+    "single": "Article",
+    "description": "Description",
+    "documents": "Documents",
+    "reference": "Code",
+    "Description": "Description",
+    "class": "Class",
+    "type": "Type",
+    "measurement_unit": "Measurement Unit",
+    "family": "Family",
+    "dimensions": "Dimensions",
+    "width": "Width",
+    "height": "Height",
+    "length": "Length",
+    "info": "Additional Information"
+  },
+  "feature": {
+    "description": "Description",
+    "value": "Value"
+  },
+  "roles": {
+    "admin": "Administrator",
+    "hr": "Human Resources",
+    "terminal": "Terminal",
+    "user": "User | Users"
+  },
+  "categories": {
+    "calidad": "Quality",
+    "estampacion": "Stamping Production",
+    "decolataje": "Turning Production",
+    "limpieza": "Cleaning Area Production",
+    "almacen": "Warehouse",
+    "produccion": "Production",
+    "roscadora": "Threading Production",
+    "ingenieria": "Engineering",
+    "almacenModula": "Modula Warehouse",
+    "director": "Factory Director",
+    "gerencia": "Management",
+    "comercial": "Commercial Office",
+    "logistica": "Logistics Office",
+    "oficina": "Office",
+    "gestionCalidad": "Quality Management",
+    "calidadProcesos": "Quality Processes"
+  },
+  "reason": {
+    "vacaciones": "Vacation",
+    "diaLibre": "Day(s) Off",
+    "otro": "Other"
+  },
+  "user_model": {
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "password_confirmation": "Confirm Password",
+    "role": "Privilege Groups",
+    "category": "Category",
+    "reason": "Reason"
+  },
+  "user": "User | Users",
+  "event": "Event | Events",
+  "events": {
+    "recent": "Recent Events",
+    "statuses": [
+      "Error",
+      "Warning",
+      "Success",
+      "Info"
+    ]
+  },
+  "hr": "Human Resources",
+  "hrs": {
+    "notification": "Notification | Notifications",
+    "notifications": {
+      "create": "Human Resources / Create Notification",
+      "comment": "Information/Comment",
+      "signaturable": "User signature required?",
+      "attachments": "Attach Documentation",
+      "subject": "Subject",
+      "read": "Read",
+      "unread": "Unread",
+      "priority": "Priority",
+      "created_at": "Creation Date",
+      "priorities": {
+        "low": "Low",
+        "mid": "Medium",
+        "high": "High"
+      }
+    },
+    "visit": "External Visits",
+    "visits": {
+      "dni": "ID/Passport Number",
+      "name": "Name",
+      "mobile": "Phone",
+      "date": "Entry Date",
+      "date_finished": "Exit Date",
+      "start_hour": "Entry Hour",
+      "end_hour": "Exit Hour",
+      "state": "State",
+      "company": "Company",
+      "reason": "Reason",
+      "observation": "Observations",
+      "reasons": {
+        "transport": "Transport",
+        "family": "Family",
+        "other": "Other"
+      },
+      "type": "Visit Type",
+      "types": {
+        "continue": "Continuous",
+        "parcial": "Partial"
+      },
+      "status": {
+        "true": "Approved",
+        "false": "Pending",
+        "null": "Denied"
+      }
+    },
+    "requests": "Requests",
+    "request": {
+      "start_date": "Start Date",
+      "end_date": "End Date",
+      "reason": "Reason",
+      "state": "State",
+      "states": {
+        "false": "Pending",
+        "null": "Denied",
+        "true": "Approved"
+      }
+    },
+    "my_notifications": "My Notifications",
+    "panel": "Overview"
+  },
+  "alts": {
+    "profile_image": "Profile Image"
+  },
+
+  "validation": {
+    "accepted": "The :attribute must be accepted.",
+    "accepted_if": "The :attribute must be accepted when :other is :value.",
+    "active_url": "The :attribute is not a valid URL.",
+    "after": "The :attribute must be a date after :date.",
+    "after_or_equal": "The :attribute must be a date after or equal to :date.",
+    "alpha": "The :attribute may only contain letters.",
+    "alpha_dash": "The :attribute may only contain letters, numbers, dashes, and underscores.",
+    "alpha_num": "The :attribute may only contain letters and numbers.",
+    "array": "The :attribute must be an array.",
+    "before": "The :attribute must be a date before :date.",
+    "before_or_equal": "The :attribute must be a date before or equal to :date.",
+    "between": {
+        "numeric": "The :attribute must be between :min and :max.",
+        "file": "The :attribute must be between :min and :max kilobytes.",
+        "string": "The :attribute must be between :min and :max characters.",
+        "array": "The :attribute must have between :min and :max items."
+    },
+    "boolean": "The :attribute field must be true or false.",
+    "confirmed": "The :attribute confirmation does not match.",
+    "date": "The :attribute is not a valid date.",
+    "date_equals": "The :attribute must be a date equal to :date.",
+    "date_format": "The :attribute does not match the format :format.",
+    "different": "The :attribute and :other must be different.",
+    "digits": "The :attribute must be :digits digits.",
+    "digits_between": "The :attribute must be between :min and :max digits.",
+    "dimensions": "The :attribute has invalid image dimensions.",
+    "distinct": "The :attribute field has a duplicate value.",
+    "email": "The :attribute must be a valid email address.",
+    "ends_with": "The :attribute must end with one of the following: :values.",
+    "exists": "The selected :attribute is invalid.",
+    "file": "The :attribute must be a file.",
+    "filled": "The :attribute field must have a value.",
+    "gt": {
+        "numeric": "The :attribute must be greater than :value.",
+        "file": "The :attribute must be greater than :value kilobytes.",
+        "string": "The :attribute must be greater than :value characters.",
+        "array": "The :attribute must have more than :value items."
+    },
+    "gte": {
+        "numeric": "The :attribute must be greater than or equal to :value.",
+        "file": "The :attribute must be greater than or equal to :value kilobytes.",
+        "string": "The :attribute must be greater than or equal to :value characters.",
+        "array": "The :attribute must have :value items or more."
+    },
+    "image": "The :attribute must be an image.",
+    "in": "The selected :attribute is invalid.",
+    "in_array": "The :attribute field does not exist in :other.",
+    "integer": "The :attribute must be an integer.",
+    "ip": "The :attribute must be a valid IP address.",
+    "ipv4": "The :attribute must be a valid IPv4 address.",
+    "ipv6": "The :attribute must be a valid IPv6 address.",
+    "json": "The :attribute must be a valid JSON string.",
+    "lt": {
+        "numeric": "The :attribute must be less than :value.",
+        "file": "The :attribute must be less than :value kilobytes.",
+        "string": "The :attribute must be less than :value characters.",
+        "array": "The :attribute must have less than :value items."
+    },
+    "lte": {
+        "numeric": "The :attribute must be less than or equal to :value.",
+        "file": "The :attribute must be less than or equal to :value kilobytes.",
+        "string": "The :attribute must be less than or equal to :value characters.",
+        "array": "The :attribute must not have more than :value items."
+    },
+    "max": {
+        "numeric": "The :attribute must not be greater than :max.",
+        "file": "The :attribute must not be greater than :max kilobytes.",
+        "string": "The :attribute must not be greater than :max characters.",
+        "array": "The :attribute must not have more than :max items."
+    },
+    "mimes": "The :attribute must be a file of type: :values.",
+    "mimetypes": "The :attribute must be a file of type: :values.",
+    "min": {
+        "numeric": "The :attribute must be at least :min.",
+        "file": "The :attribute must be at least :min kilobytes.",
+        "string": "The :attribute must be at least :min characters.",
+        "array": "The :attribute must have at least :min items."
+    },
+    "multiple_of": "The :attribute must be a multiple of :value.",
+    "not_in": "The selected :attribute is invalid.",
+    "not_regex": "The :attribute format is invalid.",
+    "numeric": "The :attribute must be a number.",
+    "password": "The password is incorrect.",
+    "present": "The :attribute field must be present.",
+    "regex": "The :attribute format is invalid.",
+    "required": "The :attribute field is required.",
+    "required_if": "The :attribute field is required when :other is :value.",
+    "required_unless": "The :attribute field is required unless :other is in :values.",
+    "required_with": "The :attribute field is required when :values is present.",
+    "required_with_all": "The :attribute field is required when :values is present.",
+    "required_without": "The :attribute field is required when :values is not present.",
+    "required_without_all": "The :attribute field is required when none of :values are present.",
+    "prohibited": "The :attribute field is prohibited.",
+    "prohibited_if": "The :attribute field is prohibited when :other is :value.",
+    "prohibited_unless": "The :attribute field is prohibited unless :other is in :values.",
+    "prohibits": "The :attribute field prohibits :other from being present.",
+    "same": "The :attribute and :other must match.",
+    "size": {
+        "numeric": "The :attribute must be :size.",
+        "file": "The :attribute must be :size kilobytes.",
+        "string": "The :attribute must be :size characters.",
+        "array": "The :attribute must contain :size items."
+    },
+    "starts_with": "The :attribute must start with one of the following: :values.",
+    "string": "The :attribute must be a string.",
+    "timezone": "The :attribute must be a valid timezone.",
+    "unique": "The :attribute has already been taken.",
+    "uploaded": "The :attribute failed to upload.",
+    "url": "The :attribute format is invalid.",
+    "uuid": "The :attribute must be a valid UUID."
+  }
+}

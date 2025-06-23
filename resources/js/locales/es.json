@@ -1,0 +1,449 @@
+{
+  "app": {
+    "created_at": "Fecha de creación",
+    "registered_at": "Fecha de registro",
+    "modified_at": "Fecha de modificación",
+    "articles": "Artículos",
+    "overview": "Vista general",
+    "logout": "Cerrar sesión",
+    "orders": "Órdenes de fabricación",
+    "pagination": {
+      "showing_registries": "Mostrando {from} a {to} registros.",
+      "showing_filtered": "Mostrando {from} a {to}, de {total} registros.",
+      "from_total": "Mostrando {from} a {to}, de {total} registros.",
+      "total": "Mostrando {total} registros.",
+      "first": "Primera",
+      "last": "Última",
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "showing": "Mostrando",
+      "results": "resultados"
+    },
+    "profile": "Perfil",
+    "register": "Crear cuenta",
+    "login": "Iniciar sesión",
+    "settings": "Preferencias",
+    "all": "Todas",
+    "unprocessed": "Sin procesar",
+    "processed": "Procesadas",
+    "closed": "Cerradas",
+    "user": "Usuarios",
+    "provider": "Proveedores",
+    "terminal": "Terminal",
+    "monitoring": "Monitorización",
+    "events": "Eventos",
+    "devices": "Dispositivos",
+    "colors": "Colores",
+    "bi": "BI",
+    "business_intelligence": "Business Intelligence",
+    "language": "Idioma",
+    "visits": "Visitas externas",
+    "companyDocs": "Documentos empresa",
+    "userDocs" : "Documentos usuario",
+    "createList" : "Crear listado",
+    "listDoc" : "Documentos obligatorios",
+    "docs": "Mis documentos",
+    "sendedDocs" :"Documentos enviados",
+    "sendDocuments": "Enviar documentacion",
+    "requiredDocs" : "Listado documentos",
+    "createUser" : "Crear usuario",
+    "createprovider": "Crear proveedor",
+    "editProvider": "Editar proveedor",
+    "showProvider": "Acciones proveedor",
+    "editUser": "Editar usuario",
+    "received" : "Documentos recibidos",
+    "registered" : {
+      "account" : "¿Ya tienes cuenta?"
+    },
+    "menu": {
+      "title": "Lemec",
+      "visits": "Mis visitas",
+      "docs": "Mis documentos",
+      "companyDocs": "Documentos empresa",
+      "sendDocs" : "Enviar documentacion", 
+      "users" : "Usuarios",
+      "providers": "Proveedores",
+      "delegates": "Delegados"
+    },
+    "moreInfo" : "Mas información",
+    "showUser" : "Información usuario",
+    "copyright": "Todos los derechos reservados",
+    "notesDoc" : "Notas por documentación",
+    "users": {
+      "name" : "Nombre",
+      "email":"Correo electrónico",
+      "access" : "Permisos",
+      "mobile" : "Telefono",
+      "dni" : "Dni",
+      "status" : "Estado",
+      "company" : "Compañia",
+      "state" : {
+        "true" : "Aprobado",
+        "false" : "Pendiente"
+      },
+      "admin" : {
+        "true": "Administrador",
+        "false": "Usuario"
+      },
+      "action" : "Acciones de usuario",
+      "password": "Contraseña",
+      "password_confirmation" : "Confirmar contraseña",
+      "actions" : {
+        "edit" : "Editar",
+        "delete": "Eliminar",
+        "document" : "Documentos",
+        "visit" : "Visita"
+      },
+      "owner": "Administrador/Dueño"
+    },
+    "providers": {
+      "name" : "Nombre",
+      "email":"Correo electrónico",
+      "access" : "Permisos",
+      "mobile" : "Telefono",
+      "action" : "Acciones de proveedores",
+      "actions" : {
+        "edit" : "Editar",
+        "delete": "Eliminar",
+        "document" : "Documentos",
+        "visit" : "Visita",
+        "user":"Usuarios"
+      },
+      "owner": "Administrador/Dueño"
+    }
+  },
+  "badges": {
+    "new": "Nuevo"
+  },
+  "auth": {
+    "email": "Correo electrónico",
+    "email_placeholder": "Dirección de correo electrónico",
+    "password": "Contraseña",
+    "password_placeholder": "Contraseña de acceso",
+    "invalid": "Credenciales invalidas",
+    "failed": "Las credenciales no existen o son incorrectas."
+  },
+  "actions": {
+    "create": "Crear",
+    "edit": "Editar",
+    "return": "Volver"
+  },
+  "buttons": {
+    "accept": "Aceptar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "ok": "OK",
+    "submit": "Enviar",
+    "login": "Iniciar sesión",
+    "search": "Buscar",
+    "order_details": "Detalles de órden",
+    "process_order": "Procesar órdenes",
+    "save": "Guardar",
+    "save_process": "Guardar y procesar",
+    "return": "Volver",
+    "add_phase": "Añadir fase",
+    "create": "Crear",
+    "update": "Actualizar",
+    "delete": "Eliminar",
+    "discard": "Descartar",
+    "close": "Cerrar"
+  },
+  "tooltips": {
+    "change_machine": "Cambio de máquina"
+  },
+  "hidden": {
+    "loading": "Cargando..."
+  },
+  "system": {
+    "success": "Correcto",
+    "error": "Error",
+    "warning": "Aviso",
+    "messages": {
+      "default": "Ha ocurrido un error al procesar su petición. Vuelva a intentarlo pasados unos minutos o contacte con el administrador de la aplicación para solucionarlo.",
+      "users": {
+        "invalid_login": "El usuario o la contraseña son incorrectos o no existen."
+      }
+    }
+  },
+  "texts": {
+    "all": "Todos",
+    "unavailable": "{page} aún no se encuentra disponible.",
+    "remember_me": "Mantener la sesión iniciada",
+    "order_submitted": "¡Orden procesada correctamente!",
+    "order_error": "La orden no se ha podido procesar. Compruebe que haya introducido bien el número de orden y que no esté ya introducida en el sistema DOEET.",
+    "processed_orders": "Número de órdenes procesadas en DOEET",
+    "pending_orders": "Número de órdenes sin procesar en DOEET",
+    "content_not_available": "Aún no puede mostrarse la información.",
+    "no_data": "No existen registros",
+    "no_data_component": "No existen registros de {component}",
+    "panel_no_app": "Solo pueden abrirse documentos desde la aplicación de escritorio del conector.",
+    "panel_no_require": "No dispone de la funcionalidad necesaria para abrir documentos.",
+    "ask_production_order_update_process": "Se van a guardar los cambios realizados y se procesará la orden en DOEET ¿Está seguro de querer continuar?",
+    "ask_production_order_update": "Se van a guardar los cambios realizados. ¿Está seguro de querer continuar?",
+    "ask_production_order_force": "¡Atención! Se va a forzar el procesado de la orden u órdenes seleccionadas, a pesar de estar ya marcadas como procesadas. Cualquier alteración en los datos entre los sistemas serán bajo su propia responsabilidad. ¿Está seguro de querer continuar?",
+    "file": "Archivo | Archivo(s)"
+  },
+  "modals": {
+    "alert": "Aviso",
+    "confirm": "Confirmar",
+    "info": "Información",
+    "error": "Error",
+    "pdf_viewer": "Visor de documentos PDF"
+  },
+  "aria": {
+    "hidden": {
+      "events": "Eventos sin leer",
+      "colors": "Colores para gestión",
+      "monitoring": "Monitorización de recursos"
+    }
+  },
+  "route": "Ruta | Rutas",
+  "routes": {
+    "title": "Ruta - {id}",
+    "annex": "Anexo",
+    "details": "Detalles",
+    "documents": "Documentos"
+  },
+  "phase": "Fase | Fases",
+  "phases": {
+    "status": "Estado",
+    "statuses": {
+      "0": "Abierta",
+      "1": "Cerrada"
+    }
+  },
+  "devices": {
+    "managed": "Dispositivos gestionados",
+    "total": "Total",
+    "connected": "Conectados",
+    "disconnected": "Desconectados",
+    "terminals": "Terminales",
+    "controllers": "Controladores"
+  },
+  "machine": "Máquina | Máquinas",
+  "machines": {},
+  "orders": "Órdenes",
+  "order": {
+    "no_article": "No hay artículo",
+    "no_material": "No hay material",
+    "single": "Orden",
+    "processed_orders": "Órdenes procesadas",
+    "pending_orders": "Órdenes sin procesar",
+    "order_number": "Número de orden",
+    "article": "Artículo",
+    "material": "Material",
+    "machine": "Máquina",
+    "delivery": "Fecha de vencimiento",
+    "details": "Detalles",
+    "edit": "Editar orden",
+    "expected_units": "Unidades previstas",
+    "status": "Estado",
+    "statuses": {
+      "10": "Abierta",
+      "40": "Cerrada"
+    },
+    "phases": "Fases",
+    "description": "Descripción",
+    "type": "Tipo",
+    "production_info": "Información de producción",
+    "start_date": "Fecha de inicio prevista",
+    "end_date": "Fecha de finalización prevista",
+    "expiry_date": "Fecha de vencimiento",
+    "customer_order": "Pedido cliente",
+    "warehouse": "Almacén",
+    "expiring_soon": "Órdenes a punto de vencer",
+    "statistic": {
+      "processed": "Órdenes procesadas",
+      "last_7_days": "Órdenes de los últimos 7 días",
+      "types": "% Tipos de órdenes",
+      "machines": "Órdenes por máquina y % por grupo"
+    },
+    "followage": "Seguimiento de órdenes",
+    "version": "Revisión"
+  },
+  "article_documents": "Documentación del artículo",
+  "article": {
+    "single": "Artículo",
+    "description": "Descripción",
+    "documents": "Documentos",
+    "reference": "Código",
+    "Description": "Descripción",
+    "class": "Clase",
+    "type": "Tipo",
+    "measurement_unit": "Unidad de medida",
+    "family": "Familia",
+    "dimensions": "Dimensiones",
+    "width": "Ancho",
+    "height": "Alto",
+    "length": "Largo",
+    "info": "Información adicional"
+  },
+  "feature": {
+    "description": "Descripción",
+    "value": "Valor"
+  },
+  "roles": {
+    "admin": "Administrador",
+    "hr": "Recursos humanos",
+    "terminal": "Terminal",
+    "user": "Usuario | Usuarios"
+  },
+  "categories":{
+    "calidad": "Calidad",
+    "estampacion": "Producción Estampación",
+    "decolataje": "Producción Decolataje",
+    "limpieza": "Producción Area Limpieza Piezas",
+    "almacen": "Almacén",
+    "produccion": "Producción",
+    "roscadora": "Produccion Roscadora",
+    "ingenieria": "ingenieria",
+    "almacenModula": "Almacén Modula",
+    "director": "Director de Fábrica",
+    "gerencia": "Gerencia",
+    "comercial": "Oficina Comercial",
+    "logistica": "Oficina Logistica",
+    "oficina": "Oficina",
+    "gestionCalidad": "Gestion de Calidad",
+    "calidadProcesos": "Calidad Procesos"
+  },
+  "reason" : {
+    "vacaciones" : "Vacaciones",
+    "diaLibre" : "Dia/as Libre/es",
+    "otro" : "Otros"
+  },
+  "user_model": {
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "password_confirmation": "Confirmar contraseña",
+    "role": "Grupos de privilegios",
+    "category": "Categoria",
+    "reason": "Motivo"
+  },
+  "user": "Usuario | Usuarios",
+  "event": "Evento | Eventos",
+  "events": {
+    "recent": "Eventos recientes",
+    "statuses": [
+      "Error",
+      "Aviso",
+      "Correcto",
+      "Info"
+    ]
+  },
+  "hr": "Recursos humanos",
+  "hrs": {
+    "notification": "Notificación | Notificaciones",
+    "notifications": {
+      "create": "Recursos humanos / Crear notificación",
+      "comment": "Información/Comentario",
+      "signaturable": "¿Se requiere firma del usuario?",
+      "attachments": "Adjuntar documentación",
+      "subject": "Asunto",
+      "read": "Leído",
+      "unread": "No leído",
+      "priority": "Prioridad",
+      "created_at": "Fecha de creación",
+      "priorities": {
+        "low": "Baja",
+        "mid": "Media",
+        "high": "Alta"
+      }
+    },
+    "visit": "Visitas externas",
+    "visits" : {
+      "dni" : "Dni/Nie/pasaporte",
+      "name": "Nombre",
+      "mobile": "Telefono",
+      "date": "Fecha Entrada",
+      "date_finished": "Fecha salida",
+      "start_hour": "Hora entrada",
+      "end_hour": "Hora salida",
+      "state": "Estado",
+      "company": "Compañia",
+      "reason": "Motivo",
+      "observation": "Observaciones",
+      "reasons": {
+        "transport": "Transporte",
+        "family": "Familia",
+        "other": "Otro"
+      },
+      "type": "Tipo de visita",
+      "types": {
+        "continue": "Continuo",
+        "parcial": "Parcial"
+      },
+      "status": {
+        "true": "Aprobado",
+        "false": "Pendiente",
+        "null": "Denegado"
+      }
+    },
+    "requests": "Solicitudes",
+    "request": {
+      "start_date": "Fecha de Inicio",
+      "end_date": "Fecha de finalización",
+      "reason": "Motivo",
+      "state" : "Estado",
+      "states": {
+        "false": "Pendiente",
+        "null": "Denegado",
+        "true": "Aprobado"
+      }
+    },
+    "my_notifications": "Mis notificaciones",
+    "panel": "Vista general"
+  },
+  "alts": {
+    "profile_image": "Imagen de perfil"
+  },
+  "notifications": {
+    "priority": {
+      "0": "Alta",
+      "1": "Media",
+      "2": "Baja"
+    }
+  },
+
+  "documents": {
+    "name" : "Nombre",
+    "open": "Abierto",
+    "users" : "Usuarios por DNI",
+    "description": "Descripción",
+    "opening": {
+      "false": "No",
+      "true": "Si"
+    },
+    "created_at": "Fecha de creación",
+    "notes": "Notas",
+    "priority" : "Prioridad",
+    "global" : "Archivo general",
+    "approved" : "Aprobado",
+    "approveded" : {
+      "true" : "Aprobado",
+      "false" : "Pendiente"
+    },
+    "priorities" : {
+      "high" :"Alta",
+      "low" : "Baja"
+    },
+    "selectFiles" : "Agregar un archivo",
+    "nameDescription" : "Nombre del archivo para identificar",
+    "usersDescription": "Acepte el termino 'global' para seleccionar varios usuarios",
+    "withoutNotes" : "No hay notas existentes para este documento",
+    "docDescription" : "Descripción acerca del documento",
+    "sent" : "Respuesta",
+    "sentList" : {
+      "1" : "Enviado",
+      "0" : "Pendiente de envio"
+    }
+  },
+  "notes" : {
+    "note": "read",
+    "read": "Leído",
+    "state" : {
+      "false": "No",
+      "true": "Si"
+    }
+  }
+}
