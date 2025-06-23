@@ -70,7 +70,7 @@ import { mdiMagnify, mdiHome, mdiLogout, mdiPlusCircle } from '@mdi/js'
 const { props } = usePage()
 
 // Se espera que cada página envíe un prop "pageTitle". Si no, usamos un valor por defecto.
-const dynamicTitle = computed(() => props.pageTitle || 'Mi Cocina')
+const dynamicTitle = computed(() => props.pageTitle || 'Mi plataforma de pago')
 
 // Detectamos si la página actual es el índice de recetas. Puedes ajustar la condición según tu lógica.
 const isRecipesIndex = computed(() => {
@@ -123,7 +123,7 @@ function search(){
   console.log("Hello")
 }
 function create(){
-  router.visit('/ui/recipes/create')
+  router.visit('/ui/create')
 }
 function logout() {
   router.post('/logout')

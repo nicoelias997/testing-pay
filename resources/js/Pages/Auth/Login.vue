@@ -2,9 +2,9 @@
     <v-col class="form-login">
     <v-sheet class="mx-auto form-container" width="50%">
         <div class="title-login">
-        <h1>Home Foods</h1>
+        <h1>Laravel Payment</h1>
         <h2 class="d-flex">
-          Remember<v-icon :icon="mdiSwapHorizontal"></v-icon>Kitchen
+          Currency<v-icon :icon="mdiSwapHorizontal"></v-icon>Platform
         </h2>
       </div>
       <!-- fast-fail -->
@@ -22,7 +22,7 @@
             :error-messages="form.errors.password"
         ></v-text-field>
         <div v-if="form.errors.login" class="error-login">
-          {{ $t(form.errors.login[0]) }}
+          {{ form.errors.login }}
         </div>
         <v-btn
           :loading="loading"

@@ -48,7 +48,7 @@ class RouteServiceProvider extends ServiceProvider
             throw new UnauthorizedException();
         }
         if (Auth::guard()->check()){
-            return URL::route('ui.index');
+            return URL::route('ui.payment.index');
         }
         //TODO: Where we need admin, we need to authorize this commit
         // if (Auth::guard()->check() && !Auth::user()->admin){

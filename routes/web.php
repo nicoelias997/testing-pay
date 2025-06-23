@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\PaymentController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,3 +44,25 @@ Route::name('auth.')
                         ->name('logout');
             });
     });
+
+
+Route::middleware('auth')
+    ->name('ui.')
+    ->prefix('/ui')
+    ->group(function () {
+
+    // Payment
+    Route::prefix('payment')
+        ->name('payment.')
+        ->group(function (){
+            Route::get('', [PaymentController::class, 'index'])->name('index');
+            Route::get('create', [PaymentController::class, 'create'])->name('create');
+            Route::post('create', [PaymentController::class, 'store'])->name('store');
+            Route::get('edit', [PaymentController::class, 'edit'])->name('edit');
+            Route::get('{id}', [PaymentController::class, 'show'])->name('show');
+            Route::put('{id}', [PaymentController::class, 'update'])->name('update');
+            Route::delete('{id}', [PaymentController::class, 'destroy'])->name('destroy');
+        });
+    
+});
+

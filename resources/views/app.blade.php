@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="icon" href="{{ asset('images/icon.jfif') }}" type="image/x-icon"/>
-        <title>Recetas de casa</title>
+        <title>Payment Platform</title>
         <meta name="description" content="">
         <meta name="keywords" content="laravel,inertia,vue.js, pay method">
         <!-- Otros metadatos como og:title, og:description, og:image para compartir en redes sociales -->
