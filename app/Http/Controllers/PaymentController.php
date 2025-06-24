@@ -7,6 +7,8 @@ use Inertia\Inertia;
 use App\Models\Currency;
 use App\Models\PaymentPlatform;
 
+use App\Http\Requests\PaymentRequest;
+
 class PaymentController extends Controller
 {
     /**
@@ -26,17 +28,19 @@ class PaymentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+    //Like an approval operation
     public function create()
     {
-        //
+        dd('puto');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PaymentRequest $request)
     {
-        //
+        $request->validated();
+        return;
     }
 
     /**

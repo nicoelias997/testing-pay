@@ -6,63 +6,52 @@
         Esta es una simulación de prueba. Los pagos aún no son reales, pero podrían ser validados en un entorno de producción.
       </v-card-subtitle>
 
-      <v-form @submit.prevent="submitPayment" ref="formRef">
+      <v-form @submit.prevent="submitPayment">
         <v-text-field
-          v-model="form.card_number"
-          label="Número de Tarjeta"
-          placeholder="4242 4242 4242 4242"
-          required
-        />
-        <v-text-field
-          v-model="form.expiry"
-          label="Expiración (MM/AA)"
-          placeholder="12/30"
-          required
-        />
-        <v-text-field
-          v-model="form.cvc"
-          label="CVC"
-          placeholder="123"
-          required
-        />
-          <v-text-field
           v-model="form.amount"
-          label="¿Cuanto deseas aportar?"
-          placeholder="5.00"
+          label="¿How much you want to pay?"
+          placeholder="5,00"
           required
         />
          <v-select
-          :items="currencies"
-          item-name="name"
+          v-model="form.currency"
+          :items="props.currencies"
           item-value="iso"
-          label="Moneda"
+          item-title="name"
+          label="Currency"
         ></v-select>
-
         <v-divider class="my-4" />
 
         <div class="mb-2 text-subtitle-1 font-weight-medium">Selecciona el método de pago:</div>
-        <div class="d-flex flex-row gap-4">
-          <v-card
-            v-for="method in paymentMethods"
-            :key="method.id"
-            :class="{ 'border-primary': form.method === method.name }"
-            class="pa-2"
-            max-width="120"
-            elevation="2"
-            @click="form.method = method.name"
-          >
-            <v-img
-              :src="method.image"
-              height="60"
-              class="mx-auto"
-              cover
-            />
-            <v-card-subtitle class="text-center text-caption mt-1">
-              {{ method.name }}
-            </v-card-subtitle>
-          </v-card>
-        </div>
-
+        
+          <div class="d-flex flex-row gap-4">
+            <v-card
+              v-for="method in props.paymentMethods"
+              :key="method.id"
+              :class="{ 'border-primary': form.payment_platform === method.name }"
+              class="pa-2"
+              max-width="120"
+              elevation="2"
+              @click="form.payment_platform = method.name"
+            >
+              <v-img
+                :src="method.image"
+                width="120"
+                height="60"
+                class="mx-auto"
+                cover
+              />
+            </v-card>
+          </div>
+          <v-alert
+          v-if="selectedMethod"
+          type="info"
+          class="mt-4"
+          border="start"
+          border-color="primary"
+        >
+          Serás redirigido a <strong>{{ selectedMethod }}</strong> para completar tu donación de forma segura.
+        </v-alert>
         <v-btn
           type="submit"
           class="mt-6"
@@ -78,51 +67,48 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import Swal from 'sweetalert2'
 import { useForm, usePage } from '@inertiajs/vue3'
+import { computed } from 'vue';
 
 const form = useForm({
-  card_number: '',
-  expiry: '',
-  cvc: '',
-  method: '',
+  amount: '',
+  currency: '',
+  payment_platform: '',
  
 })
 const { props } = usePage();
 
-const currencies = props.currencies
-const paymentMethods = props.paymentMethods
-// const currencies = pageProps.currency;
-// console.log(currency)
+const selectedMethod = computed(() => form.payment_platform)
 
 const submitPayment = () => {
   if (
-    !form.value.card_number ||
-    !form.value.expiry ||
-    !form.value.cvc ||
-    !form.value.method
+    !form.amount ||
+    !form.currency ||
+    !form.payment_platform
   ) {
     Swal.fire({
       icon: 'warning',
       title: 'Campos incompletos',
       text: 'Por favor, completa todos los campos.',
     })
-    return
+    return;
   }
-  router.post(`/ui/payment/create`, form, {
+  form.post(`/ui/payment/create`, {
     preserveState: true,
     preserveScroll: true,
     onSuccess: () => {
       Swal.fire({
         title: 'Proceso agregado',
-        html: `✅ ¡Pago exitoso con <b>${form.value.method.toUpperCase()}</b>!<br><small>(Simulación completada)</small>`,
+        html: `✅ ¡Pago exitoso con <b>${form.payment_platform.toUpperCase()}</b>!`,
         icon: 'success',
         timer: 2000,
         showConfirmButton: false
       })
+      form.reset()
     },
-    onError: () => {
+    onError: (e) => {
+      console.log(e)
       Swal.fire({
         title: 'Error',
         text: 'No se pudo agregar el proceso.',
@@ -130,17 +116,6 @@ const submitPayment = () => {
       })
     }
   })
-
-  // Limpiar el formulario
-  form.value = {
-    card_number: '',
-    expiry: '',
-    cvc: '',
-    method: '',
-    currency: '',
-    mount: ''
-  }
-
 }
 </script>
 

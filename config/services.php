@@ -21,6 +21,13 @@ return [
         'scheme' => 'https',
     ],
 
+    'paypal' => [
+        'base_uri' => env('PAYPAL_BASE_URI'),
+        'client_id' => env('PAYPAL_CLIENT_ID'),
+        'client_secret' => env('PAYPAL_CLIENT_SECRET'),
+        'mode' => env('PAYPAL_MODE'),
+    ],
+    
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],
