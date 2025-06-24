@@ -13,8 +13,8 @@ trait ApiResponses
             'base_uri' => $this->baseUri
         ]);
 
-        if(method_exists($this, 'reseolveAuthorization')) {
-            $this->reseolveAuthorization($queryParams, $formParams, $headers);
+        if(method_exists($this, 'resolveAuthorization')) {
+            $this->resolveAuthorization($queryParams, $formParams, $headers);
         }
 
         $response = $client->request($method, $requestUrl, [
@@ -24,10 +24,6 @@ trait ApiResponses
         ]);
 
         $response = $response->getBody()->getContents();
-
-        if(method_exists($this, 'reseolveAuthorization')) {
-            $this->decodeResponse($response);
-        }
 
         return $response;
     }

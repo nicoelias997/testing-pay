@@ -14,6 +14,7 @@ class PayPalService
     protected string $mode;
 
     use ApiResponses;
+    // C:\Users\nicoe\Desktop\Proyectos\testing-pay
     // cd C:\Users\Dev\Desktop\Nico\Proyectos\testing-pay
     // php artisan tinker
     //$paypal = new App\Services\PayPalService;
@@ -27,17 +28,7 @@ class PayPalService
     }
 
     public function resolveAuthorization(&$queryParams, &$formParams, &$headers){
-        $headers['Authorization'] = $this->resolveAccessToken();
-    }
-
-    public function decodeResponse($response) {
-        return json_decode($response);
-    }
-
-    public function resolveAccessToken(){
-        $credentials = base64_encode("{$this->clientId}:{$this->clientSecret}");
-
-        return "Basic {$credentials}"; 
+        $headers['Authorization'] = "Bearer " . $this->getAccessToken();
     }
 
     public function getAccessToken(): string|null
@@ -55,21 +46,32 @@ class PayPalService
         return null;
     }
 
-    public function createOrder($amount = 10, $currency = 'USD'): array|null
+    public function createOrder($amount, $currency): array|null
     {
         $accessToken = $this->getAccessToken();
 
         if (!$accessToken) return null;
 
         $response = Http::withToken($accessToken)
-            ->post("{$this->baseUrl}/v2/checkout/orders", [
+            ->post("{$this->baseUri}/v2/checkout/orders", [
                 'intent' => 'CAPTURE',
                 'purchase_units' => [[
                     'amount' => [
-                        'currency_code' => $currency,
+                        'currency_code' => strtoupper($currency),
                         'value' => $amount
                     ]
-                ]]
+                ]],
+                'payment_source' => [
+                    "paypal" => [
+                        "experience_context" => [
+                            'brand_name' => config('app.name'),
+                            'shipping_preference' => 'NO_SHIPPING',
+                            'user_action' => 'PAY_NOW',
+                            'return_url' => route('ui.payment.create'),
+                            'cancel_url' => route('ui.payment.index')
+                        ]
+                    ]
+                ]
             ]);
 
         return $response->successful() ? $response->json() : null;
@@ -82,7 +84,7 @@ class PayPalService
         if (!$accessToken) return null;
 
         $response = Http::withToken($accessToken)
-            ->post("{$this->baseUrl}/v2/checkout/orders/{$orderId}/capture");
+            ->post("{$this->baseUri}/v2/checkout/orders/{$orderId}/capture");
 
         return $response->successful() ? $response->json() : null;
     }
