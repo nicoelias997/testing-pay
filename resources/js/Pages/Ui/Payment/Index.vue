@@ -28,11 +28,11 @@
             <v-card
               v-for="method in props.paymentMethods"
               :key="method.id"
-              :class="{ 'border-primary': form.payment_platform === method.name }"
+              :class="{ 'border-primary': form.payment_platform === method.id }"
               class="pa-2"
               max-width="120"
               elevation="2"
-              @click="form.payment_platform = method.name"
+              @click="form.payment_platform = method.id, form.selectedPayment = method.name"
             >
               <v-img
                 :src="method.image"
@@ -75,11 +75,11 @@ const form = useForm({
   amount: '',
   currency: '',
   payment_platform: '',
- 
+  selectedPayment: ''
 })
 const { props } = usePage();
 
-const selectedMethod = computed(() => form.payment_platform)
+const selectedMethod = computed(() => form.selectedPayment)
 
 const submitPayment = () => {
   if (
@@ -107,8 +107,7 @@ const submitPayment = () => {
       })
       form.reset()
     },
-    onError: (e) => {
-      console.log(e)
+    onError: () => {
       Swal.fire({
         title: 'Error',
         text: 'No se pudo agregar el proceso.',

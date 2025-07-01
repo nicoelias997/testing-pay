@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\Currency;
 use App\Models\PaymentPlatform;
-
 use App\Http\Requests\PaymentRequest;
+use App\Services\PayPalService;
 
 class PaymentController extends Controller
 {
@@ -29,9 +29,15 @@ class PaymentController extends Controller
      * Show the form for creating a new resource.
      */
     //Like an approval operation
-    public function create()
+    public function create(Request $request)
     {
-        dd('puto');
+        $orderId = $request->get('token');
+
+        if($orderId){
+            $paymentPlatform = PaymentPlatform::resolveService($request->payment_platform);
+            return $paymentPlatform->handleCaptureOrder($orderId);
+        }
+        
     }
 
     /**
@@ -40,7 +46,10 @@ class PaymentController extends Controller
     public function store(PaymentRequest $request)
     {
         $request->validated();
-        return;
+
+        $paymentPlatform = PaymentPlatform::resolveService($request->payment_platform);
+        
+        return $paymentPlatform->handlePayment($request);
     }
 
     /**
@@ -73,5 +82,8 @@ class PaymentController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    public function cancelled(){
+       return redirect()->action([PaymentController::class, 'index']);
     }
 }

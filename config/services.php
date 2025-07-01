@@ -26,6 +26,15 @@ return [
         'client_id' => env('PAYPAL_CLIENT_ID'),
         'client_secret' => env('PAYPAL_CLIENT_SECRET'),
         'mode' => env('PAYPAL_MODE'),
+        'class' => App\Services\PayPalService::class
+    ],
+
+      'stripe' => [
+        'base_uri' => env('STRIPE_BASE_URI'),
+        'client_id' => env('STRIPE_CLIENT_ID'),
+        'client_secret' => env('STRIPE_CLIENT_SECRET'),
+        'account' => env('STRIPE_ACCOUNT'),
+        'class' => App\Services\StripeService::class
     ],
     
     'postmark' => [

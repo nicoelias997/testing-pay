@@ -17,13 +17,15 @@ class CurrenciesTableSeeder extends Seeder
         $currencies = [
             'usd',
             'eur',
-            'gbp'
+            'gbp',
+            'jpy'
         ];
 
         $description = [
             'Dolar',
             'Euro',
-            'Libra'
+            'Libra',
+            'Yen'
         ];
 
         foreach ($currencies as $index => $currency) {

@@ -33,7 +33,7 @@ class PaymentRequest extends FormRequest
             ],
             'payment_platform' => [
                 'required',
-                'exists:payment_platforms,name',
+                'exists:payment_platforms,id',
             ]
         ];
     }
