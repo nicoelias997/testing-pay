@@ -71,7 +71,7 @@ class PayPalService
                             'brand_name' => config('app.name'),
                             'shipping_preference' => 'NO_SHIPPING',
                             'user_action' => 'PAY_NOW',
-                            'return_url' => route('ui.payment.create'),
+                            'return_url' => route('ui.payment.approved'),
                             'cancel_url' => route('ui.payment.cancelled')
                         ]
                     ]

@@ -31,13 +31,7 @@ class PaymentController extends Controller
     //Like an approval operation
     public function create(Request $request)
     {
-        $orderId = $request->get('token');
-
-        if($orderId){
-            $paymentPlatform = PaymentPlatform::resolveService($request->payment_platform);
-            return $paymentPlatform->handleCaptureOrder($orderId);
-        }
-        
+            
     }
 
     /**
@@ -83,6 +77,16 @@ class PaymentController extends Controller
     {
         //
     }
+
+    public function approved(Request $request){
+        $orderId = $request->get('token');
+
+        if($orderId){
+            $paymentPlatform = PaymentPlatform::resolveService($request->payment_platform);
+            return $paymentPlatform->handleCaptureOrder($orderId);
+        }
+    }
+
     public function cancelled(){
        return redirect()->action([PaymentController::class, 'index']);
     }

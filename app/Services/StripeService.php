@@ -47,42 +47,52 @@ class StripeService
 
     //TODO: Fijarme en el laravel passport
     public function handlePayment(Request $request){
-        $order = $this->createOrder($request->amount, $request->currency);
+        $handle = $this->createPaymentIntent($request->amount, $request->currency);
+        return redirect()
+                    ->action([PaymentController::class, 'index']);
     }
+
+    // public function createPaymentMethod()
+    // {
+    //     //TODO: type can be: card, card_present. customer_balance, klarna, link, paypal, 
+    //     $paymentMethod = $this->stripe->paymentMethods->create([
+    //         'type' => 'card',
+    //         'card' => [
+    //             'number' => 424242424242,
+    //             'exp_month' => 10,
+    //             'exp_year' => 34,
+    //             'cvc' => 567
+    //         ]
+    //     ]);
+    //     return $paymentMethod ? $paymentMethod : null;
+    // }
 
     //Una vez creada, nos solicita un "PAYER_ACTION"
-    public function createOrder($amount, $currency)
+    public function createPaymentIntent($amount, $currency)
     {
-        //  $accessToken = $this->getAccessToken();
-
-        // if (!$accessToken) return null;
-
         //TODO: type can be: card, card_present. customer_balance, klarna, link, paypal, 
-        $paymentMethod = $this->stripe->paymentIntents->create([
-            'amount' => 100,
-            'currency' => 'usd',
+        $paymentIntent = $this->stripe->paymentIntents->create([
+            'amount' => $this->roundAmount($amount, $currency),
+            'currency' => strtoupper($currency),
             'payment_method' => 'pm_card_visa',
             'payment_method_types' => ['card'],
-            // 'type' => 'card',
-            // 'card' => [
-            //     'number' => '424242424242',
-            //     'exp_month' => '10',
-            //     'exp_year' => '32',
-            //     'cvc' => 341
-            // ]
         ]);
-        return $paymentMethod;
+        if($paymentIntent['status'] == 'requires_confirmation'){
+            $confirmation = $this->confirmPaymentIntent($paymentIntent['id'], $paymentIntent['payment_method']);
+            if($confirmation['status'] === 'succeeded'){
+                 return true;
+            }
+        }
     }
 
-    public function handleCaptureOrder($orderId){
-
+    public function confirmPaymentIntent($paymentIntentId, $paymentIntentMethod){
+            $confirmPayment = $this->stripe->paymentIntents->confirm($paymentIntentId, [
+                'payment_method' => $paymentIntentMethod
+            ]);
+            return $confirmPayment ? $confirmPayment : null;
     }
-    public function captureOrder($orderId)
-    {
 
-    }
-
-       public function resolveFactor($currency) {
+    public function resolveFactor($currency) {
         $zeroDecimalCurrencies = ['JPY'];
 
         if(in_array(strtoupper($currency), $zeroDecimalCurrencies)){
