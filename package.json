@@ -20,6 +20,7 @@
         "@inertiajs/vue3": "^2.0.13",
         "@mdi/font": "^7.4.47",
         "@mdi/js": "^7.4.47",
+        "@stripe/stripe-js": "^7.4.0",
         "@vitejs/plugin-vue": "^5.2.4",
         "bootstrap": "^5.3.3",
         "lodash": "^4.17.21",

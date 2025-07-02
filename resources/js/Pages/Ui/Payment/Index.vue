@@ -97,16 +97,16 @@ const submitPayment = () => {
   form.post(`/ui/payment/create`, {
     preserveState: true,
     preserveScroll: true,
-    onSuccess: () => {
-      Swal.fire({
-        title: 'Proceso agregado',
-        html: `✅ ¡Pago exitoso con <b>${form.payment_platform.toUpperCase()}</b>!`,
-        icon: 'success',
-        timer: 2000,
-        showConfirmButton: false
-      })
-      form.reset()
-    },
+    // onSuccess: () => {
+    //   Swal.fire({
+    //     title: 'Proceso agregado',
+    //     html: `✅ ¡Pago exitoso con <b>${form.selectedPayment}</b>!`,
+    //     icon: 'success',
+    //     timer: 2000,
+    //     showConfirmButton: false
+    //   })
+    //   form.reset()
+    // },
     onError: () => {
       Swal.fire({
         title: 'Error',

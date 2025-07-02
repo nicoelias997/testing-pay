@@ -64,6 +64,7 @@ Route::middleware('auth')
             Route::delete('{id}', [PaymentController::class, 'destroy'])->name('destroy');
             Route::get('cancelled', [PaymentController::class, 'cancelled'])->name('cancelled');
             Route::get('approved', [PaymentController::class, 'create'])->name('approved');
+            Route::get('3d-secure', [PaymentController::class, '3d-secure'])->name('3d-secure');
         });
     
 });

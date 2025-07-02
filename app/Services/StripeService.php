@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
-// use Stripe;
 class StripeService
 {
     protected string $baseUri;
@@ -22,34 +21,9 @@ class StripeService
         $this->stripe = new \Stripe\StripeClient($this->clientSecret);
     }
 
-    public function getAccessToken()
-    {
-        $ch = $this->stripe;
-        // $response = Http::asForm()
-        //     ->withBasicAuth($this->clientId, $this->clientSecret)
-        //     ->post("{$this->baseUri}/v1/charges", [
-        //         // 'grant_type' => 'client_credentials'
-        //     ]);
-        $ch = $stripe->charges->retrieve(
-            'ch_3Ln3fO2eZvKYlo2C1kqP3AMr',
-            [],
-            ['api_key' => "$this->clientSecret"]
-            );
-        $ch->capture(); // Uses the same API Key.
-
-        return $ch;
-        if ($response->successful()) {
-            return $response->json()['access_token'];
-        }
-
-        return null;
-    }
-
-    //TODO: Fijarme en el laravel passport
     public function handlePayment(Request $request){
         $handle = $this->createPaymentIntent($request->amount, $request->currency);
-        return redirect()
-                    ->action([PaymentController::class, 'index']);
+        return $handle;
     }
 
     // public function createPaymentMethod()
@@ -67,30 +41,36 @@ class StripeService
     //     return $paymentMethod ? $paymentMethod : null;
     // }
 
-    //Una vez creada, nos solicita un "PAYER_ACTION"
     public function createPaymentIntent($amount, $currency)
     {
         //TODO: type can be: card, card_present. customer_balance, klarna, link, paypal, 
         $paymentIntent = $this->stripe->paymentIntents->create([
-            'amount' => $this->roundAmount($amount, $currency),
+            'amount' => round($amount * $this->resolveFactor($currency)),
             'currency' => strtoupper($currency),
-            'payment_method' => 'pm_card_visa',
+            'payment_method' => 'pm_card_authenticationRequiredOnSetup',
             'payment_method_types' => ['card'],
         ]);
-        if($paymentIntent['status'] == 'requires_confirmation'){
-            $confirmation = $this->confirmPaymentIntent($paymentIntent['id'], $paymentIntent['payment_method']);
-            if($confirmation['status'] === 'succeeded'){
-                 return true;
-            }
-        }
+        return Inertia::render('Ui/Payment/Stripe/3d-secure', [
+                    'clientSecret' =>  $paymentIntent['client_secret']
+                ]);
+        // if($paymentIntent['status'] == 'requires_confirmation'){
+        //     $confirmation = $this->confirmPaymentIntent($paymentIntent['id'], $paymentIntent['payment_method']);
+        //     if($confirmation['status'] === 'requires_action'){
+        //          $clientSecret = $confirmation['client_secret'];
+
+        //         return Inertia::render('Ui/Payment/Stripe/3d-secure', [
+        //             'clientSecret' => $clientSecret
+        //         ]);
+        //     }
+        // }
     }
 
-    public function confirmPaymentIntent($paymentIntentId, $paymentIntentMethod){
-            $confirmPayment = $this->stripe->paymentIntents->confirm($paymentIntentId, [
-                'payment_method' => $paymentIntentMethod
-            ]);
-            return $confirmPayment ? $confirmPayment : null;
-    }
+    // public function confirmPaymentIntent($paymentIntentId, $paymentIntentMethod){
+    //         $confirmPayment = $this->stripe->paymentIntents->confirm($paymentIntentId, [
+    //             'payment_method' => $paymentIntentMethod
+    //         ]);
+    //         return $confirmPayment ? $confirmPayment : null;
+    // }
 
     public function resolveFactor($currency) {
         $zeroDecimalCurrencies = ['JPY'];
@@ -100,10 +80,5 @@ class StripeService
         }
 
         return 100;
-    }
-
-    public function roundAmount($amount, $currency){
-        $factor = $this->resolveFactor($currency);
-        return round($amount * $factor) / $factor;
     }
 }
