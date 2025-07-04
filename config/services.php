@@ -13,7 +13,10 @@ return [
     | a conventional file to locate the various service credentials.
     |
     */
-
+    'currency_conversion' => [
+        'base_uri' => env('EXCHANGE_CURRENCY_BASE_URI'),
+        'api_key' => env('EXCHANGE_CURRENCY_API_KEY'),
+    ],
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
@@ -31,10 +34,18 @@ return [
 
       'stripe' => [
         'base_uri' => env('STRIPE_BASE_URI'),
-        'client_id' => env('STRIPE_CLIENT_ID'),
-        'client_secret' => env('STRIPE_CLIENT_SECRET'),
+        'public_key' => env('STRIPE_PUBLIC_KEY'),
+        'secret_key' => env('STRIPE_SECRET_KEY'),
         'account' => env('STRIPE_ACCOUNT'),
         'class' => App\Services\StripeService::class
+    ],
+      'mercado_pago' => [
+        'base_uri' => env('MERCADO_PAGO_BASE_URI'),
+        'public_key' => env('MERCADO_PAGO_PUBLIC_KEY'),
+        'access_token' => env('MERCADO_PAGO_ACCESS_TOKEN'),
+        'client_id' => env('MERCADO_PAGO_CLIENT_ID'),
+        'client_secret' => env('MERCADO_PAGO_CLIENT_SECRET'),
+        'class' => App\Services\MercadoPagoService::class
     ],
     
     'postmark' => [

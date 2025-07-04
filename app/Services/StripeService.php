@@ -9,16 +9,16 @@ use Inertia\Inertia;
 class StripeService
 {
     protected string $baseUri;
-    protected string $clientId;
-    protected string $clientSecret;
+    protected string $publicKey;
+    protected string $secret_key;
     protected object $stripe;
 
     public function __construct()
     {
         $this->baseUri  = config('services.stripe.base_uri');
-        $this->clientId = config('services.stripe.client_id');
-        $this->clientSecret   = config('services.stripe.client_secret');
-        $this->stripe = new \Stripe\StripeClient($this->clientSecret);
+        $this->publicKey = config('services.stripe.public_key');
+        $this->secret_key   = config('services.stripe.secret_key');
+        $this->stripe = new \Stripe\StripeClient($this->secret_key);
     }
 
     public function handlePayment(Request $request){
