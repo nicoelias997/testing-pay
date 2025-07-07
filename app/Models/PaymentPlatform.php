@@ -21,7 +21,7 @@ class PaymentPlatform extends Model
 
     public static function resolveService($id) {
         $payment_platform = self::where('id', $id)->firstOrFail();
-        $name = strtolower($payment_platform->name);
+        $name = strtolower(str_replace(' ', '_', $payment_platform->name));
         
         $service = config("services.$name.class"); 
         if($service) {

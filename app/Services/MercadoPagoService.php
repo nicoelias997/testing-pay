@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Support\Str;
 
 class MercadoPagoService
 {
@@ -27,12 +27,11 @@ class MercadoPagoService
 
     public function getAccessToken(): string|null
     {
-        $response = Http::asForm()
-            ->withBasicAuth($this->clientId, $this->clientSecret)
-            ->post("{$this->baseUri}/oauth/token", [
+        $response = Http::post("{$this->baseUri}/oauth/token", [
+                'client_id' => $this->clientId,
+                'client_secret' => $this->clientSecret,
                 'grant_type' => 'client_credentials'
             ]);
-
         if ($response->successful()) {
             return $response->json()['access_token'];
         }
@@ -42,48 +41,50 @@ class MercadoPagoService
 
     //TODO: Fijarme en el laravel passport
     public function handlePayment(Request $request){
-        $order = $this->createOrder($request->amount, $request->currency);
-        
-        $orderLinks = collect($order['links']);
-
-        $payerAction = $orderLinks->where('rel', 'payer-action')->first();
-        
-        return Inertia::location($payerAction['href']);
+        $order = $this->createPayment($request->amount, $request->currency);
     }
 
     //Una vez creada, nos solicita un "PAYER_ACTION"
-    public function createOrder($amount, $currency): array|null
+    public function createPayment($amount, $currency): array|null
     {
         $accessToken = $this->getAccessToken();
-
+        
         if (!$accessToken) return null;
 
-        dd(HasUuids::newUniqueId());
-        $response = Http::withToken($accessToken)
-            ->withHeader('X-Idempotency-Key', HasUuids::newUniqueId())
+        $response = Http::withHeaders([
+            'X-Idempotency-Key' => Str::uuid7()->toString(),
+            'Authorization' => "Bearer $accessToken"
+        ])
+        
+            // withToken($accessToken)
+            // ->withHeader('X-Idempotency-Key', Str::uuid7()->toString())
+
             ->post("{$this->baseUri}/v1/orders", [
                 'type' => 'online',
-                'purchase_units' => [[
-                    'amount' => [
-                        'currency_code' => strtoupper($currency),
-                        'value' => $this->roundAmount($amount, $currency)
-                    ]
-                ]],
-                'payment_source' => [
-                    "mercado_pago" => [
-                        "payment_method_preference" => "IMMEDIATE_PAYMENT_REQUIRED",
-                        "experience_context" => [
-                            'brand_name' => config('app.name'),
-                            'shipping_preference' => 'NO_SHIPPING',
-                            'user_action' => 'PAY_NOW',
-                            'return_url' => route('ui.payment.approved'),
-                            'cancel_url' => route('ui.payment.cancelled')
+                'external_reference' => 'dcxfd3',
+                'transactions' => [
+                    'payments' => [
+                        'amount' => $this->roundAmount($amount, $currency),
+                        'payment_method' => [
+                            "id" => "visa",
+                            "type" => "credit_card",
+                            "token" => "12345",
+                            "installments" => 1,
+                        ],
+                    ],
+                    "payer" => [
+                        "email" => 'test@test.com',
+                        "first_name" => 'Test',
+                        'last_name' => 'User',
+                        'identification' => [
+                            'type' => 'DNI',
+                            'number' => '40404404'
                         ]
-                    ]
-                ]
+                    ],
+                ],
             ]);
-
-        return $response->successful() ? $response->json() : null;
+            dd($response);
+            return $response->successful() ? $response->json() : null;
     }
 
     public function handleCaptureOrder($orderId){
