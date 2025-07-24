@@ -45,6 +45,7 @@ return [
         'access_token' => env('MERCADO_PAGO_ACCESS_TOKEN'),
         'client_id' => env('MERCADO_PAGO_CLIENT_ID'),
         'client_secret' => env('MERCADO_PAGO_CLIENT_SECRET'),
+        'base_currency' => 'ars',
         'class' => App\Services\MercadoPagoService::class
     ],
     

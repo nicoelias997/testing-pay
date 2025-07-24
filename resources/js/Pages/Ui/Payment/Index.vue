@@ -43,15 +43,13 @@
               />
             </v-card>
           </div>
-          <v-alert
-          v-if="selectedMethod"
-          type="info"
+        
+        <component
+          :is="selectedComponent"
+          :form="form"
+          :onSubmit="handleMercadoPagoSubmit"
           class="mt-4"
-          border="start"
-          border-color="primary"
-        >
-          Serás redirigido a <strong>{{ selectedMethod }}</strong> para completar tu donación de forma segura.
-        </v-alert>
+        />
         <v-btn
           type="submit"
           class="mt-6"
@@ -67,21 +65,37 @@
 </template>
 
 <script setup>
+import StripeInfo from '../../../Components/Service/StripeInfo.vue'
+import PayPalInfo from '../../../Components/Service/PayPalInfo.vue'
+import MercadoPagoForm from '../../../Components/Service/MercadoPagoInfo.vue'
+
 import Swal from 'sweetalert2'
 import { useForm, usePage } from '@inertiajs/vue3'
 import { computed } from 'vue';
+
+const selectedComponent = computed(() => {
+  switch (form.selectedPayment) {
+    case 'Stripe':
+      return StripeInfo
+    case 'PayPal':
+      return PayPalInfo
+    case 'Mercado Pago':
+      return MercadoPagoForm
+    default:
+      return null
+  }
+})
 
 const form = useForm({
   amount: '',
   currency: '',
   payment_platform: '',
-  selectedPayment: ''
+  selectedPayment: '',
 })
 const { props } = usePage();
 
-const selectedMethod = computed(() => form.selectedPayment)
 
-const submitPayment = () => {
+const submitPayment = async () => {
   if (
     !form.amount ||
     !form.currency ||
@@ -94,19 +108,13 @@ const submitPayment = () => {
     })
     return;
   }
+  if (form.selectedPayment === 'Mercado Pago') {
+    return;
+  }
+
   form.post(`/ui/payment/create`, {
     preserveState: true,
     preserveScroll: true,
-    // onSuccess: () => {
-    //   Swal.fire({
-    //     title: 'Proceso agregado',
-    //     html: `✅ ¡Pago exitoso con <b>${form.selectedPayment}</b>!`,
-    //     icon: 'success',
-    //     timer: 2000,
-    //     showConfirmButton: false
-    //   })
-    //   form.reset()
-    // },
     onError: () => {
       Swal.fire({
         title: 'Error',
@@ -115,6 +123,20 @@ const submitPayment = () => {
       })
     }
   })
+}
+// MP maneja su propio envío
+const handleMercadoPagoSubmit = (extraData) => {
+  form.transform((FormData) => ({
+    ...FormData,
+    ...extraData,
+  })).post('/ui/payment/create'), {
+    onError: () => {
+      Swal.fire('Error', 'No se pudo procesar el pago.', 'error')
+    },
+    onSuccess: () => {
+      Swal.fire('Éxito', 'Pago simulado con Mercado Pago enviado.', 'success')
+    }
+  }
 }
 </script>
 
