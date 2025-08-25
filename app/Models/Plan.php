@@ -22,6 +22,6 @@ class Plan extends Model
     ];
 
     public function subscription(){
-        return $this->hasOne(Subscription::class);
+        return $this->belongsTo(Subscription::class);
     }
 }

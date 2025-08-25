@@ -48,6 +48,8 @@ class MercadoPagoService
     //TODO: Fijarme en el laravel passport
     public function handlePayment(Request $request){
         $order = $this->createPayment($request);
+        return redirect()
+            ->action([PaymentController::class, 'index']);
     }
 
     public function createPayment($request)
@@ -90,29 +92,6 @@ class MercadoPagoService
             ]
         ]
     ]);
-
-    //    $response = Http::withHeaders([
-    //         'X-Idempotency-Key' => Str::uuid()->toString(),
-    //         'Authorization' => "Bearer $this->accessToken"
-    //     ])->post("{$this->baseUri}/v1/payments", [
-    //         'transaction_amount' => $this->roundAmount($request->amount, $request->currency) ,
-    //         'token' => $request->token,
-    //         'description' => $request->description,
-    //         'installments' => 1,
-    //         'payment_method_id' => $request->payment_method_id,
-    //         'issuer_id' => $request->issuer_id,
-    //         'payer' => [
-    //             'first_name' => 'APRO',
-    //             'email' => $request->payer['email'],
-    //             'identification' => [
-    //                 'type' => $request->payer['identification']['type'],
-    //                 'number' => $request->payer['identification']['number']
-    //             ]
-    //         ]
-    // //     ]);
-    //         // 4509 9535 6623 3704
-    //         // 123
-    //         dd($response->successful() ? $response->json() : $response->body());
     return $response->successful() ? $response->json() : $response;
     }
 
@@ -141,20 +120,12 @@ class MercadoPagoService
     }
 
        public function resolveFactor($currency, $baseCurrency, $amount) {
-        $zeroDecimalCurrencies = ['JPY'];
-
         $conversion = $this->converter->getConvertCurrency($baseCurrency, $currency, $amount);
         if($conversion['result'] === 'success'){
            return $conversion['conversion_rate'];
         } else {
             return 1;
         }
-
-        // if(in_array(strtoupper($currency), $zeroDecimalCurrencies)){
-        //     return 1;
-        // }
-
-        // return 100;
     }
 
     public function roundAmount($amount, $currency){

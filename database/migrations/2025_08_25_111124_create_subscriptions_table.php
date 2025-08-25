@@ -23,7 +23,7 @@ return new class extends Migration
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
-            $table->integer('active_until');
+            $table->timestamp('active_until');
             $table->timestamps();
         });
     }

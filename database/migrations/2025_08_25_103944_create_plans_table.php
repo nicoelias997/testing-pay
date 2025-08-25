@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
-            $table->string('slug');
-            $table->decimal('price',18,2);
+            $table->string('slug')->unique();
+            $table->integer('price')->unsigned();
             $table->integer('duration_in_days');
             $table->timestamps();
         });

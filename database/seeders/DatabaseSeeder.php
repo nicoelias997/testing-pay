@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use Database\Seeders\PaymentPlatformsTableSeeder;
 use Database\Seeders\CurrenciesTableSeeder;
 use Database\Seeders\UserSeeder;
+use Database\Seeders\PlanSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,5 +26,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PaymentPlatformsTableSeeder::class);
         $this->call(CurrenciesTableSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(PlanSeeder::class);
     }
 }

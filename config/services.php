@@ -32,7 +32,20 @@ return [
         'class' => App\Services\PayPalService::class
     ],
 
-      'stripe' => [
+    'payu' => [
+        'base_uri' => env('PAYU_BASE_URI'),
+        'client_id' => env('PAYU_CLIENT_ID'),
+        'client_secret' => env('PAYU_CLIENT_SECRET'),
+        'account_test_ars' => env('PAYU_ACCOUNT_ID'),
+        'merchant_test' => env('PAYU_MERCHANT_ID'),
+        'login_test' => env('PAYU_API_LOGIN'),
+        'secret_key' => env('PAYU_API_KEY'),
+        'public_key' => env('PAYU_PUBLIC_KEY'),
+        'base_currency' => 'ars',
+        'class' => App\Services\PayUService::class
+    ],
+
+    'stripe' => [
         'base_uri' => env('STRIPE_BASE_URI'),
         'public_key' => env('STRIPE_PUBLIC_KEY'),
         'secret_key' => env('STRIPE_SECRET_KEY'),

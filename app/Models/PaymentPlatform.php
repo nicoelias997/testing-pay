@@ -16,7 +16,8 @@ class PaymentPlatform extends Model
     protected $fillable = [
         'id',
         'name',
-        'image'
+        'image',
+        'subscriptions_enabled'
     ];
 
     public static function resolveService($id) {

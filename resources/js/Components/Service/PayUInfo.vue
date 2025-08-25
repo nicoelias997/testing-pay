@@ -3,10 +3,22 @@
     <v-alert
       type="warning"
       border="start"
-      border-color="deep-orange"
+      border-color="lime-lighten-1deep-"
       class="mb-4"
     >
-      Estás usando <strong>Mercado Pago</strong>. Por favor, completa la información para simular un pago.
+      Estás usando <strong>Pay U</strong>. Estamos trabajando para traerte este metodo de pago, disculpe las molestias.
+    </v-alert>
+  </div>
+</template>
+<!-- <template>
+  <div class="mt-4">
+    <v-alert
+      type="warning"
+      border="start"
+      border-color="lime-lighten-1deep-"
+      class="mb-4"
+    >
+      Estás usando <strong>Pay U</strong>. Por favor, completa la información para simular un pago.
     </v-alert>
 
     <form id="form-checkout" @submit.prevent="handleSubmit">
@@ -197,4 +209,4 @@ async function handleSubmit() {
 .mb-3 {
   margin-bottom: 16px;
 }
-</style>
+</style> -->

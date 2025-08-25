@@ -30,4 +30,8 @@ class Subscription extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function isActive(){
+        return $this->active_unti->gt(now());
+    }
 }

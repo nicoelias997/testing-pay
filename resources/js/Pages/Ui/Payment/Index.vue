@@ -52,6 +52,18 @@
         />
         <v-btn
           type="submit"
+          v-if="form.selectedPayment === 'Mercado Pago' || form.selectedPayment === 'PayU'"
+          class="mt-6"
+          disabled
+          color="primary"
+          size="large"
+          block
+        >
+          Simular Pago
+        </v-btn>
+         <v-btn
+          v-else
+          type="submit"
           class="mt-6"
           color="primary"
           size="large"
@@ -67,6 +79,7 @@
 <script setup>
 import StripeInfo from '../../../Components/Service/StripeInfo.vue'
 import PayPalInfo from '../../../Components/Service/PayPalInfo.vue'
+import PayUInfo from '../../../Components/Service/PayUInfo.vue'
 import MercadoPagoForm from '../../../Components/Service/MercadoPagoInfo.vue'
 
 import Swal from 'sweetalert2'
@@ -81,6 +94,8 @@ const selectedComponent = computed(() => {
       return PayPalInfo
     case 'Mercado Pago':
       return MercadoPagoForm
+    case 'PayU':
+      return PayUInfo
     default:
       return null
   }
