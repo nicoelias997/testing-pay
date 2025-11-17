@@ -3,32 +3,11 @@
     <v-layout column>
       <!-- App Bar con degradado (sin imagen) -->
       <v-app-bar flat class="app-bar-gradient" dark>
-        <!-- Icono para abrir el navigation drawer -->
-        <v-app-bar-nav-icon @click="drawer = !drawer" />
 
         <!-- Título dinámico -->
         <v-toolbar-title>{{ dynamicTitle }}</v-toolbar-title>
 
         <v-spacer></v-spacer>
-
-        <!-- Campo de búsqueda visible sólo en la página de recetas -->
-        <template v-if="isRecipesIndex">
-          <v-text-field 
-            v-model="searchQuery" 
-            append-icon="mdi-magnify" 
-            single-line 
-            hide-details 
-            placeholder="Buscar..."
-            class="mx-2"
-          />
-        </template>
-
-        <v-btn icon @click="search">
-          <v-icon :icon="mdiMagnify" />
-        </v-btn>
-        <v-btn icon @click="create">
-          <v-icon :icon="mdiPlusCircle" />
-        </v-btn>
         <v-btn icon @click="logout">
           <v-icon :icon="mdiLogout" />
         </v-btn>
@@ -72,59 +51,6 @@ const { props } = usePage()
 // Se espera que cada página envíe un prop "pageTitle". Si no, usamos un valor por defecto.
 const dynamicTitle = computed(() => props.pageTitle || 'Mi plataforma de pago')
 
-// Detectamos si la página actual es el índice de recetas. Puedes ajustar la condición según tu lógica.
-const isRecipesIndex = computed(() => {
-  return props.pageTitle && props.pageTitle.toLowerCase().includes('recetas')
-})
-
-// Campo de búsqueda
-const searchQuery = ref('')
-
-// Control del navigation drawer
-const drawer = ref(false)
-
-// Ítems del menú de navegación
-const navItems = ref([
-  { title: 'Recetas', value: 'recipes' },
-  { title: 'Ingredientes', value: 'ingredients' },
-  { title: 'Condimentos', value: 'condiments' },
-  { title: 'Postres', value: 'desserts' },
-  { title: 'Tragos', value: 'drinks' }
-])
-
-// Función para navegar a las distintas secciones
-function navigateTo(section) {
-  switch(section) {
-    case 'recipes':
-      router.visit('/ui/recipes')
-      break
-    case 'condiments':
-      router.visit('/ui/condiments')
-      break
-    case 'ingredients':
-      router.visit('/ui/ingredients')
-      break
-    case 'desserts':
-      router.visit('/ui/desserts')
-      break
-    case 'drinks':
-      router.visit('/ui/drinks')
-      break
-    default:
-      break
-  }
-  drawer.value = false
-}
-
-// function goToProfile() {
-//   router.visit('/ui/profile')
-// }
-function search(){
-  console.log("Hello")
-}
-function create(){
-  router.visit('/ui/create')
-}
 function logout() {
   router.post('/logout')
 }
