@@ -32,11 +32,9 @@ class LoginController extends Controller
     public function authenticate(LoginRequest $request)
     {
         $request->validated();
-        
+
         $request->authenticate();
 
-        // $request->cheackState();
-        
         $request->session()->regenerate();
         
         return redirect()->intended(RouteServiceProvider::getHomeRoute());

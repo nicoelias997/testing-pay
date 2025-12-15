@@ -9,12 +9,28 @@
       Estás usando <strong>Mercado Pago</strong>. Por favor, completa la información para simular un pago.
     </v-alert>
 
+    <v-alert
+      v-if="sdkLoaded && !isFormReady && (!props.form.amount || parseFloat(props.form.amount) <= 0)"
+      type="info"
+      border="start"
+      border-color="blue"
+      class="mb-4"
+    >
+      <v-icon icon="mdi-information" class="mr-2"></v-icon>
+      Por favor, ingresa un <strong>monto válido</strong> arriba para cargar el formulario de pago.
+    </v-alert>
+
     <div v-if="!sdkLoaded" class="text-center py-8">
       <v-progress-circular indeterminate color="primary" />
       <p class="mt-4">Cargando Mercado Pago...</p>
     </div>
 
-    <form v-else :id="formId" @submit.prevent="handleSubmit">
+    <div v-else-if="sdkLoaded && !isFormReady && (!props.form.amount || parseFloat(props.form.amount) <= 0)" class="text-center py-8">
+      <v-icon icon="mdi-cash-multiple" size="64" color="grey-lighten-1"></v-icon>
+      <p class="mt-4 text-grey">Esperando monto...</p>
+    </div>
+
+    <form v-else-if="sdkLoaded" :id="formId" @submit.prevent="handleSubmit">
       <div class="mb-3">
         <label :for="`${formId}__cardNumber`">Número de tarjeta</label>
         <div :id="`${formId}__cardNumber`" class="mp-field" />
@@ -89,7 +105,7 @@
 </template>
 
 <script setup>
-import { onMounted, onBeforeUnmount, ref, computed } from 'vue'
+import { onMounted, onBeforeUnmount, ref, computed, watch } from 'vue'
 import Swal from 'sweetalert2'
 
 const props = defineProps({
@@ -107,11 +123,29 @@ const loading = ref(false)
 const isFormReady = ref(false)
 const sdkLoaded = ref(false)
 const instanceId = ref(Date.now())
+const lastInitializedAmount = ref(null)
 
 const formId = computed(() => `form-checkout-${instanceId.value}`)
 
 let cardFormInstance = null
 let scriptElement = null
+
+// Watch for amount changes and re-initialize the form
+watch(() => props.form.amount, (newAmount, oldAmount) => {
+  // Only reinitialize if:
+  // 1. SDK is loaded
+  // 2. New amount is valid
+  // 3. Amount changed significantly (to avoid unnecessary reloads)
+  if (sdkLoaded.value && newAmount && parseFloat(newAmount) > 0) {
+    const amountDifference = Math.abs(parseFloat(newAmount) - (lastInitializedAmount.value || 0))
+
+    // Reinitialize if amount changed by more than 0.01 or if never initialized
+    if (!lastInitializedAmount.value || amountDifference > 0.01) {
+      console.log('💰 Amount changed, reinitializing form:', newAmount)
+      reinitializeCardForm()
+    }
+  }
+})
 
 // CRÍTICO: Limpiar cuando el componente se desmonta (al cambiar de método de pago)
 onBeforeUnmount(() => {
@@ -174,16 +208,17 @@ function cleanupCompletely() {
   // 7. Resetear estados
   sdkLoaded.value = false
   isFormReady.value = false
-  
+  lastInitializedAmount.value = null
+
   console.log('✅ Limpieza COMPLETA finalizada')
 }
 
 function loadMercadoPagoSDK() {
   console.log('📦 Cargando SDK de Mercado Pago...')
-  
+
   // Asegurar limpieza previa
   cleanupCompletely()
-  
+
   // Pequeña pausa para asegurar que el DOM se limpió
   setTimeout(() => {
     // Crear nuevo script con timestamp único para evitar cache
@@ -191,35 +226,54 @@ function loadMercadoPagoSDK() {
     scriptElement.src = `https://sdk.mercadopago.com/js/v2?nocache=${Date.now()}`
     scriptElement.async = true
     scriptElement.defer = true
-    
+
     scriptElement.onload = () => {
       console.log('✅ SDK de MP cargado exitosamente')
       sdkLoaded.value = true
-      
-      // Pequeña pausa antes de inicializar para asegurar que el SDK esté listo
-      setTimeout(() => {
-        initCardForm()
-      }, 100)
+
+      // Only initialize if amount is already present
+      if (props.form.amount && parseFloat(props.form.amount) > 0) {
+        setTimeout(() => {
+          initCardForm()
+        }, 100)
+      } else {
+        console.log('⏳ SDK cargado. Esperando que el usuario ingrese un monto...')
+      }
     }
-    
+
     scriptElement.onerror = () => {
       console.error('❌ Error cargando SDK de MP')
       Swal.fire('Error', 'No se pudo cargar Mercado Pago', 'error')
       sdkLoaded.value = false
     }
-    
+
     document.head.appendChild(scriptElement)
   }, 50)
+}
+
+// Reinitialize the card form with new amount
+function reinitializeCardForm() {
+  // Clean up existing form instance
+  if (cardFormInstance) {
+    try {
+      cardFormInstance = null
+      isFormReady.value = false
+      console.log('🔄 Limpiando instancia anterior del formulario...')
+    } catch (error) {
+      console.warn('⚠️ Error limpiando instancia:', error)
+    }
+  }
+
+  // Wait a bit for cleanup, then initialize
+  setTimeout(() => {
+    initCardForm()
+  }, 200)
 }
 
 function initCardForm() {
   if (!props.form.amount || parseFloat(props.form.amount) <= 0) {
     console.warn('⚠️ Monto inválido:', props.form.amount)
-    Swal.fire({
-      icon: 'warning',
-      title: 'Monto requerido',
-      text: 'Por favor ingresa un monto válido antes de continuar'
-    })
+    isFormReady.value = false
     return
   }
 
@@ -230,17 +284,20 @@ function initCardForm() {
 
   try {
     isFormReady.value = false
-    
+
+    const amountValue = parseFloat(props.form.amount)
+    lastInitializedAmount.value = amountValue
+
     console.log('🔧 Inicializando CardForm con ID:', formId.value)
-    console.log('   Monto:', props.form.amount)
-    
+    console.log('   Monto:', amountValue)
+
     const mp = new window.MercadoPago(
       import.meta.env.VITE_MERCADO_PAGO_PUBLIC_KEY,
       { locale: 'es-AR' }
     )
 
     cardFormInstance = mp.cardForm({
-      amount: props.form.amount.toString(),
+      amount: amountValue.toString(),
       iframe: true,
       form: {
         id: formId.value,

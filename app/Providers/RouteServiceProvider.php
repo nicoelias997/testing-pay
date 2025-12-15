@@ -42,33 +42,17 @@ class RouteServiceProvider extends ServiceProvider
                 ->group(base_path('routes/web.php'));
         });
     }
-        public static function getHomeRoute()
+    public static function getHomeRoute()
     {
-        if (Auth::guest()) {
-            throw new UnauthorizedException();
+        if (!Auth::check()) {
+            throw new \Illuminate\Auth\AuthenticationException();
         }
-        if (Auth::guard()->check()){
-            return URL::route('ui.payment.index');
-        }
-        //TODO: Where we need admin, we need to authorize this commit
-        // if (Auth::guard()->check() && !Auth::user()->admin){
-        //     return URL::route('ui.index');
-        
-        // } 
-        // else if (Auth::guard()->check() && Auth::user()->admin){
-        //     return URL::route('admin.docs.index');
-        // } 
-        else {
 
-            Auth::logout();
-            Session::invalidate();
+        // TODO: Add admin routing when needed
+        // if (Auth::user()->isAdmin()) {
+        //     return URL::route('admin.dashboard');
+        // }
 
-            Session::regenerateToken();
-
-            Session::put('flash', __('app.invalid_access_permission'));
-            Session::put('flashType', 'warning');
-
-            return URL::route('auth.login');
-        }
+        return URL::route('ui.payment.index');
     }
 }

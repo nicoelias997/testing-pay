@@ -9,7 +9,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Str;
 use App\Services\ExchangeConversionService;
 
-class MercadoPagoService
+class MercadoPagoService extends BasePaymentService
 {
     protected string $baseUri;
     protected string $publicKey;
@@ -45,7 +45,6 @@ class MercadoPagoService
         return null;
     }
 
-    //TODO: Fijarme en el laravel passport
     public function handlePayment(Request $request){
         $order = $this->createPayment($request);
         return redirect()
@@ -53,46 +52,50 @@ class MercadoPagoService
     }
 
     public function createPayment($request)
-    {   
+    {
         $accessToken = $this->getAccessToken();
-        
-        if (!$accessToken) return null;
-        $responseTest = Http::withHeaders([
+
+        if (!$accessToken) {
+            throw new \Exception('Failed to get MercadoPago access token');
+        }
+
+        $response = Http::withHeaders([
             'X-Idempotency-Key' => Str::uuid()->toString(),
             'Authorization' => "Bearer $this->accessToken"
-        ])->get("{$this->baseUri}/v1/payments/search");
-
-         $response = Http::withHeaders([
-        'X-Idempotency-Key' => Str::uuid()->toString(),
-        'Authorization' => "Bearer $this->accessToken"
-    ])->post("{$this->baseUri}/v1/orders", [
-        'type' => 'online',
-        'processing_mode' => 'automatic',
-        'total_amount' => (string) $this->roundAmount($request->amount, $request->currency), // debe ser string
-        'external_reference' => Str::uuid()->toString(),
-        'transactions' => [
-            'payments' => [ // este es un array de objetos
-                [
-                    'amount' => (string) $this->roundAmount($request->amount, $request->currency), // también string
-                    'payment_method' => [
-                        'id' => $request->payment_method_id,
-                        'type' => 'credit_card',
-                        'token' => $request->token,
-                        'installments' => 1,
+        ])->post("{$this->baseUri}/v1/orders", [
+            'type' => 'online',
+            'processing_mode' => 'automatic',
+            'total_amount' => (string) $this->roundAmount($request->amount, $request->currency),
+            'external_reference' => Str::uuid()->toString(),
+            'transactions' => [
+                'payments' => [
+                    [
+                        'amount' => (string) $this->roundAmount($request->amount, $request->currency),
+                        'payment_method' => [
+                            'id' => $request->payment_method_id,
+                            'type' => 'credit_card',
+                            'token' => $request->token,
+                            'installments' => 1,
+                        ]
                     ]
                 ]
+            ],
+            'payer' => [
+                'first_name' => 'APRO',
+                'email' => $request->payer['email'],
+                'identification' => [
+                    'type' => $request->payer['identification']['type'],
+                    'number' => $request->payer['identification']['number']
+                ]
             ]
-        ],
-        'payer' => [
-            'first_name' => 'APRO',
-            'email' => $request->payer['email'],
-            'identification' => [
-                'type' => $request->payer['identification']['type'],
-                'number' => $request->payer['identification']['number']
-            ]
-        ]
-    ]);
-    return $response->successful() ? $response->json() : $response;
+        ]);
+
+        if (!$response->successful()) {
+            $error = $response->json()['message'] ?? 'Payment creation failed';
+            throw new \Exception("MercadoPago error: {$error}");
+        }
+
+        return $response->json();
     }
 
     public function handleCaptureOrder($orderId){
@@ -110,13 +113,20 @@ class MercadoPagoService
     {
         $accessToken = $this->getAccessToken();
 
-        if (!$accessToken) return null;
+        if (!$accessToken) {
+            throw new \Exception('Failed to get MercadoPago access token');
+        }
 
         $response = Http::withToken($accessToken)
             ->withBody('', 'application/json')
             ->post("{$this->baseUri}/v2/checkout/orders/$orderId/capture");
-          
-        return $response->successful() ? $response->json() : $response->json();
+
+        if (!$response->successful()) {
+            $error = $response->json()['message'] ?? 'Payment capture failed';
+            throw new \Exception("MercadoPago capture error: {$error}");
+        }
+
+        return $response->json();
     }
 
        public function resolveFactor($currency, $baseCurrency, $amount) {

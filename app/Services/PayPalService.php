@@ -7,7 +7,7 @@ use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
 
-class PayPalService
+class PayPalService extends BasePaymentService
 {
     protected string $baseUri;
     protected string $clientId;
@@ -37,7 +37,6 @@ class PayPalService
         return null;
     }
 
-    //TODO: Fijarme en el laravel passport
     public function handlePayment(Request $request){
         $order = $this->createOrder($request->amount, $request->currency);
         
@@ -96,27 +95,19 @@ class PayPalService
     {
         $accessToken = $this->getAccessToken();
 
-        if (!$accessToken) return null;
+        if (!$accessToken) {
+            throw new \Exception('Failed to get PayPal access token');
+        }
 
         $response = Http::withToken($accessToken)
             ->withBody('', 'application/json')
             ->post("{$this->baseUri}/v2/checkout/orders/$orderId/capture");
-          
-        return $response->successful() ? $response->json() : $response->json();
-    }
 
-       public function resolveFactor($currency) {
-        $zeroDecimalCurrencies = ['JPY'];
-
-        if(in_array(strtoupper($currency), $zeroDecimalCurrencies)){
-            return 1;
+        if (!$response->successful()) {
+            $error = $response->json()['message'] ?? 'Payment capture failed';
+            throw new \Exception("PayPal capture error: {$error}");
         }
 
-        return 100;
-    }
-
-    public function roundAmount($amount, $currency){
-        $factor = $this->resolveFactor($currency);
-        return round($amount * $factor) / $factor;
+        return $response->json();
     }
 }

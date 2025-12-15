@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
-class StripeService
+
+class StripeService extends BasePaymentService
 {
     protected string $baseUri;
     protected string $publicKey;
@@ -71,14 +72,4 @@ class StripeService
     //         ]);
     //         return $confirmPayment ? $confirmPayment : null;
     // }
-
-    public function resolveFactor($currency) {
-        $zeroDecimalCurrencies = ['JPY'];
-
-        if(in_array(strtoupper($currency), $zeroDecimalCurrencies)){
-            return 1;
-        }
-
-        return 100;
-    }
 }

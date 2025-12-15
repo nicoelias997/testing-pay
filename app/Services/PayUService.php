@@ -9,13 +9,16 @@ use Inertia\Inertia;
 use Illuminate\Support\Str;
 use App\Services\ExchangeConversionService;
 
-class PayUService
+class PayUService extends BasePaymentService
 {
     protected string $baseUri;
     protected string $publicKey;
-    protected string $accessToken;
+    protected string $secretKey;
     protected string $clientId;
     protected string $clientSecret;
+    protected string $merchantTest;
+    protected string $loginTest;
+    protected string $accountId;
     protected string $baseCurrency;
     protected $converter;
 
@@ -28,7 +31,8 @@ class PayUService
         $this->clientSecret   = config('services.payu.client_secret');
         $this->merchantTest = config('services.payu.merchant_test');
         $this->loginTest = config('services.payu.login_test');
-        $this->baseCurrency = config('services.payu.account_test_ars');
+        $this->accountId = config('services.payu.account_test_ars');
+        $this->baseCurrency = 'ars';
 
         $this->converter = $converter;
     }
@@ -47,7 +51,6 @@ class PayUService
         return null;
     }
 
-    //TODO: Fijarme en el laravel passport
     public function handlePayment(Request $request){
         $order = $this->createPayment($request);
         return redirect()
@@ -55,14 +58,12 @@ class PayUService
     }
 
     public function createPayment($request)
-    {   
+    {
         $accessToken = $this->getAccessToken();
-        
-        if (!$accessToken) return null;
 
-        $responseTest = Http::withHeaders([
-            'Authorization' => "Bearer $this->accessToken"
-        ])->get("{$this->baseUri}/SUBMIT_TRANSACTION");
+        if (!$accessToken) {
+            throw new \Exception('Failed to get PayU access token');
+        }
 
         $response = Http::post("{$this->baseUri}/submit_transaction", [
         'language' => 'es',
@@ -124,9 +125,14 @@ class PayUService
             'cookie' => $request->cookie,
             'userAgent' => $request->userAgent,
         ]
-    ]);
+        ]);
 
-    return $response->successful() ? $response->json() : $response;
+        if (!$response->successful()) {
+            $error = $response->json()['message'] ?? 'Payment creation failed';
+            throw new \Exception("PayU error: {$error}");
+        }
+
+        return $response->json();
     }
 
     public function handleCaptureOrder($orderId){
@@ -144,13 +150,20 @@ class PayUService
     {
         $accessToken = $this->getAccessToken();
 
-        if (!$accessToken) return null;
+        if (!$accessToken) {
+            throw new \Exception('Failed to get PayU access token');
+        }
 
         $response = Http::withToken($accessToken)
             ->withBody('', 'application/json')
             ->post("{$this->baseUri}/v2/checkout/orders/$orderId/capture");
-          
-        return $response->successful() ? $response->json() : $response->json();
+
+        if (!$response->successful()) {
+            $error = $response->json()['message'] ?? 'Payment capture failed';
+            throw new \Exception("PayU capture error: {$error}");
+        }
+
+        return $response->json();
     }
 
        public function resolveFactor($currency, $baseCurrency, $amount) {
@@ -165,5 +178,10 @@ class PayUService
     public function roundAmount($amount, $currency){
         $factor = $this->resolveFactor($currency, $this->baseCurrency, $amount);
         return round($amount / $factor);
+    }
+
+    private function generateSignature($apiKey, $referenceCode, $amount, $currency)
+    {
+        return md5($apiKey . '~' . $this->merchantTest . '~' . $referenceCode . '~' . $amount . '~' . $currency);
     }
 }
